@@ -29,7 +29,7 @@ class Check(object):
             check_class = self.subclasses.get(check_name.__name__)
 
         if check_class:
-            return check_class.check(check_value=check_value, value=value)
+            return check_class.check(check_value, value=value)
 
         print(f'Неизвестное условие {check_name}')
         return False
