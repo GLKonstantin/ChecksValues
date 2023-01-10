@@ -11,6 +11,7 @@ from check_module import check_coordinates
 from check_module import check_string
 from check_module import check_regexp
 from check_module import check_file_objects
+from check_module import check_bytes
 from check_module import check_utils
 
 __author__ = 'Konstantin Levickiy'
@@ -26,5 +27,6 @@ __all__ = [
     'check_string',
     'check_regexp',
     'check_file_objects',
+    'check_bytes',
     'check_utils'
 ]
