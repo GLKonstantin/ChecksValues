@@ -7,7 +7,8 @@ from check_module.check_utils import (
     get_date_from_string,
     get_time_from_string,
     get_datetime_from_string,
-
+    MONTHS,
+    WEEKDAYS,
 )
 
 
@@ -91,7 +92,7 @@ class IsTime(Check):
         return isinstance(value, datetime.time)
 
 
-class DateTime(Check):
+class IsDateTime(Check):
     """Проверка на условие если значение дата и время"""
     verbose_name = "дата и время"
 
@@ -327,45 +328,6 @@ class Year(Check):
         return isinstance(value, datetime.datetime)
 
 
-MONTHS = {
-            'Январь': 1,
-            'Февраль': 2,
-            'Март': 3,
-            'Апрель': 4,
-            'Май': 5,
-            'Июнь': 6,
-            'Июль': 7,
-            'Август': 8,
-            'Сентябрь': 9,
-            'Октябрь': 10,
-            'Ноябрь': 11,
-            'Декабрь': 12,
-            'january': 1,
-            'february': 2,
-            'march': 3,
-            'april': 4,
-            'may': 5,
-            'june': 6,
-            'july': 7,
-            'august': 8,
-            'september': 9,
-            'october': 10,
-            'november': 11,
-            'december': 12,
-            'jan': 1,
-            'feb': 2,
-            'mar': 3,
-            'apr': 4,
-            'jun': 6,
-            'jul': 7,
-            'aug': 8,
-            'sep': 9,
-            'oct': 10,
-            'nov': 11,
-            'dec': 12,
-        }
-
-
 class Month(Check):
     """Проверка на условие если значение месяц"""
     verbose_name = "месяц"
@@ -431,6 +393,42 @@ class Month(Check):
         ('_', 'oct'),
         ('_', 'nov'),
         ('_', 'dec'),
+        ('_', 'января'),
+        ('_', 'февраля'),
+        ('_', 'марта'),
+        ('_', 'апреля'),
+        ('_', 'мая'),
+        ('_', 'июня'),
+        ('_', 'июля'),
+        ('_', 'августа'),
+        ('_', 'сентября'),
+        ('_', 'октября'),
+        ('_', 'ноября'),
+        ('_', 'декабря'),
+    ]
+
+    test_false = [
+        ('_', '13'),
+        ('_', '0'),
+        ('_', '1.1'),
+        ('_', '1.01'),
+        ('_', 'ABRAKADABRA'),
+        ('_', 'ян'),
+        ('_', 13),
+        ('_', 0),
+        ]
+
+    test_exception = [
+        ('_', 1.1),
+        ('_', (1, 1)),
+        ('_', [1, 1]),
+        ('_', {'1': 1}),
+        ('_', None),
+        ('_', True),
+        ('_', False),
+        ('_', 1j),
+        ('_', 1+1j),
+        ('_', 1j+1),
     ]
 
     @staticmethod
@@ -447,130 +445,283 @@ class Month(Check):
                 if value in MONTHS:
                     value = MONTHS.get(value)
                 else:
-                    raise ValueError(f'Значение "value" должно быть целым числом или строкой а не {value}')
-            # raise ValueError(f'Значение "value" должно быть целым числом или строкой а не {value}')
+                    return False
 
         if value < 1 or value > 12:
             return False
         value = datetime.datetime(2020, value, 1)
-        return isinstance(value, datetime.datetime)
+        return isinstance(value, datetime.date)
 
 
 class Day(Check):
     """Проверка на условие если значение день"""
     verbose_name = "день"
 
+    test_true = [
+        ('_', 1),
+        ('_', 2),
+        ('_', 3),
+        ('_', 4),
+        ('_', 5),
+        ('_', 6),
+        ('_', 7),
+        ('_', 8),
+        ('_', 9),
+        ('_', 10),
+        ('_', 11),
+        ('_', 12),
+        ('_', 13),
+        ('_', 14),
+        ('_', 15),
+        ('_', 16),
+        ('_', 17),
+        ('_', 18),
+        ('_', 19),
+        ('_', 20),
+        ('_', 21),
+        ('_', 22),
+        ('_', 23),
+        ('_', 24),
+        ('_', 25),
+        ('_', 26),
+        ('_', 27),
+        ('_', 28),
+        ('_', 29),
+        ('_', 30),
+        ('_', 31),
+        ('_', '01'),
+        ('_', '02'),
+        ('_', '03'),
+        ('_', '04'),
+        ('_', '05'),
+        ('_', '06'),
+        ('_', '07'),
+        ('_', '08'),
+        ('_', '09'),
+        ('_', '10'),
+        ('_', '11'),
+        ('_', '12'),
+        ('_', '13'),
+        ('_', '14'),
+        ('_', '15'),
+        ('_', '16'),
+        ('_', '17'),
+        ('_', '18'),
+        ('_', '19'),
+        ('_', '20'),
+        ('_', '21'),
+        ('_', '22'),
+        ('_', '23'),
+        ('_', '24'),
+        ('_', '25'),
+        ('_', '26'),
+        ('_', '27'),
+        ('_', '28'),
+        ('_', '29'),
+        ('_', '30'),
+        ('_', '31'),
+
+    ]
+
+    test_false = [
+        ('_', '32'),
+        ('_', '0'),
+        ('_', '1.1'),
+        ('_', '1.01'),
+        ('_', 'ABRAKADABRA'),
+        ('_', 32),
+        ('_', 0),
+        ]
+
+    test_exception = [
+        ('_', 1.1),
+        ('_', (1, 1)),
+        ('_', [1, 1]),
+        ('_', {'1': 1}),
+        ('_', None),
+        ('_', True),
+        ('_', False),
+        ('_', 1j),
+        ('_', 1+1j),
+        ('_', 1j+1),
+        ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
+    def check(_, value) -> bool:
+        """Проверка на условие если значение день"""
+        if not isinstance(value, (str, int)):
+            raise ValueError(f'Значение "value" должно быть целым числом или строкой а не {type(value)}')
+
         if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%d')
-            except ValueError:
+            if value.isdigit():
+                value = int(value)
+            else:
                 return False
 
-        return isinstance(value, datetime.day)
+        if value < 1 or value > 31:
+            return False
+        value = datetime.datetime(2020, 1, value)
+        return isinstance(value, datetime.date)
 
 
 class WeekDay(Check):
     """Проверка на условие если значение день недели"""
     verbose_name = "день недели"
 
+    test_true = [
+        ('_', 1),
+        ('_', 2),
+        ('_', 3),
+        ('_', 4),
+        ('_', 5),
+        ('_', 6),
+        ('_', 7),
+        ('_', '1'),
+        ('_', '2'),
+        ('_', '3'),
+        ('_', '4'),
+        ('_', '5'),
+        ('_', '6'),
+        ('_', '7'),
+        ('_', 'понедельник'),
+        ('_', 'вторник'),
+        ('_', 'среда'),
+        ('_', 'четверг'),
+        ('_', 'пятница'),
+        ('_', 'суббота'),
+        ('_', 'воскресенье'),
+        ('_', 'пн'),
+        ('_', 'вт'),
+        ('_', 'ср'),
+        ('_', 'чт'),
+        ('_', 'пт'),
+        ('_', 'сб'),
+        ('_', 'вс'),
+        ('_', 'ПН'),
+        ('_', 'ВТ'),
+        ('_', 'СР'),
+        ('_', 'ЧТ'),
+        ('_', 'ПТ'),
+        ('_', 'СБ'),
+        ('_', 'ВС'),
+        ('_', 'Пн'),
+        ('_', 'Вт'),
+        ('_', 'Ср'),
+        ('_', 'Чт'),
+        ('_', 'Пт'),
+        ('_', 'Сб'),
+        ('_', 'Вс'),
+        ('_', 'пН'),
+        ('_', 'вТ'),
+        ('_', 'сР'),
+        ('_', 'чТ'),
+        ('_', 'пТ'),
+        ('_', 'сБ'),
+        ('_', 'вС'),
+        ('_', 'ПонЕдЕлЬник'),
+        ('_', 'ВтОрНик'),
+        ('_', 'СрЕдА'),
+        ('_', 'ЧетВеРг'),
+        ('_', 'ПятНиЦа'),
+        ('_', 'СУбБота'),
+        ('_', 'ВОскРеСеНьЕ'),
+        ('_', 'ПОНЕДЕЛЬНИК'),
+        ('_', 'ВТОРНИК'),
+        ('_', 'СРЕДА'),
+        ('_', 'ЧЕТВЕРГ'),
+        ('_', 'ПЯТНИЦА'),
+        ('_', 'СУББОТА'),
+        ('_', 'ВОСКРЕСЕНЬЕ'),
+        ('_', 'Monday'),
+        ('_', 'Tuesday'),
+        ('_', 'Wednesday'),
+        ('_', 'Thursday'),
+        ('_', 'Friday'),
+        ('_', 'Saturday'),
+        ('_', 'Sunday'),
+        ('_', 'MONDAY'),
+        ('_', 'TUESDAY'),
+        ('_', 'WEDNESDAY'),
+        ('_', 'THURSDAY'),
+        ('_', 'FRIDAY'),
+        ('_', 'SATURDAY'),
+        ('_', 'SUNDAY'),
+        ('_', 'monday'),
+        ('_', 'tuesday'),
+        ('_', 'wednesday'),
+        ('_', 'thursday'),
+        ('_', 'friday'),
+        ('_', 'saturday'),
+        ('_', 'sunday'),
+        ('_', 'MON'),
+        ('_', 'TUE'),
+        ('_', 'WED'),
+        ('_', 'THU'),
+        ('_', 'FRI'),
+        ('_', 'SAT'),
+        ('_', 'SUN'),
+        ('_', 'Mon'),
+        ('_', 'Tue'),
+        ('_', 'Wed'),
+        ('_', 'Thu'),
+        ('_', 'Fri'),
+        ('_', 'Sat'),
+        ('_', 'Sun'),
+        ('_', 'mon'),
+        ('_', 'tue'),
+        ('_', 'wed'),
+        ('_', 'thu'),
+        ('_', 'fri'),
+        ('_', 'sat'),
+        ('_', 'sun'),
+        ('_', 'monday'),
+        ('_', 'tuesday'),
+        ('_', 'wednesday'),
+        ('_', 'thursday'),
+        ('_', 'friday'),
+        ('_', 'saturday'),
+        ('_', 'sunday'),
+        ]
+
+    test_false = [
+        ('_', 0),
+        ('_', 15),
+        ('_', '0'),
+        ('_', '15'),
+        ('_', 'Груша'),
+    ]
+
+    test_exception = [
+        ('_', None),
+        ('_', True),
+        ('_', False),
+        ('_', 1.1),
+        ('_', '1.1'),
+        ('_', (1, 1,)),
+        ('_', [1, 1]),
+        ('_', {1: 1}),
+        ('_', {1, 1}),
+        ('_', object()),
+        ('_', lambda x: x),
+        ('_', type),
+    ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
+    def check(_, value: str or int) -> bool:
+        """Проверка на условие если значение день недели"""
+        if not isinstance(value, (str, int)):
+            raise ValueError(f'Значение "value" должно быть целым числом или строкой а не {type(value)}')
+
         if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%w')
-            except ValueError:
+            if value.lower() in WEEKDAYS:
+                return True
+
+            if value.isdigit():
+                value = int(value)
+            else:
                 return False
 
-        return isinstance(value, datetime.weekday)
+        if value < 1 or value > 7:
+            return False
 
-
-class Hour(Check):
-    """Проверка на условие если значение час"""
-    verbose_name = "час"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%H')
-            except ValueError:
-                return False
-
-        return isinstance(value, datetime.hour)
-
-
-class Minute(Check):
-    """Проверка на условие если значение минута"""
-    verbose_name = "минута"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%M')
-            except ValueError:
-                return False
-
-        return isinstance(value, datetime.minute)
-
-
-class Second(Check):
-    """Проверка на условие если значение секунда"""
-    verbose_name = "секунда"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%S')
-            except ValueError:
-                return False
-
-        return isinstance(value, datetime.second)
-
-
-class DateRange(Check):
-    """Проверка на условие если значение дата входит в диапазон дат"""
-    verbose_name = "дата входит в диапазон"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%Y-%m-%d')
-            except ValueError:
-                return False
-
-        return check_value[0] <= value <= check_value[1]
-
-
-class DateTimeRange(Check):
-    """Проверка на условие если значение дата и время входит в диапазон дат"""
-    verbose_name = "дата и время входит в диапазон"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
-            except ValueError:
-                return False
-
-        return check_value[0] <= value <= check_value[1]
-
-
-class TimeRange(Check):
-    """Проверка на условие если значение время входит в диапазон дат"""
-    verbose_name = "время входит в диапазон"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        if isinstance(value, str):
-            try:
-                value = datetime.strptime(value, '%H:%M:%S')
-            except ValueError:
-                return False
-
-        return check_value[0] <= value <= check_value[1]
+        return True
