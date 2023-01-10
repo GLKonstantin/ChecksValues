@@ -6,7 +6,7 @@ from check_module.check import Check
 from check_module import check_base
 from check_module import check_numeric
 from check_module import check_datetime
-from check_module import check_coordinates
+# from check_module import check_coordinates
 from check_module import check_string
 from check_module import check_bytes
 from check_module import check_regexp
@@ -21,7 +21,7 @@ __all__ = [
     'check_base',
     'check_numeric',
     'check_datetime',
-    'check_coordinates',
+    # 'check_coordinates',
     'check_string',
     'check_bytes',
     'check_regexp',
