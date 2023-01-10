@@ -295,16 +295,4 @@ WEEKDAYS = {
 
 
 if __name__ == '__main__':
-    print(get_date_from_string('2020-91-01'))
-    print(get_date_from_string('2020/01/71'))
-    print(get_date_from_string('2020.01.02'))
-    print(get_date_from_string('01-01-2020'))
-    print(get_date_from_string('01.01.2020'))
-    print(get_date_from_string('01/01/2020'))
-    print('-----------------')
-    print(get_time_from_string('01:01:20'))
-    print(get_time_from_string('01:01:20.123456'))
-    print(get_time_from_string('01:01:20.1234'))
-    print(get_time_from_string('01:01:20.123456789'))
-    print(get_time_from_string('01:01'))
-    print(get_time_from_string('01.01.20.123456789'))
+    pass

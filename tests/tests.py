@@ -1,18 +1,17 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
-#
-import pytest
+#  All rights reserved.
 
-import check_module
+from check_module.check import Check
 from unittest import TestCase
 from parameterized import parameterized
 
 
 def collect_test_data():
-    check = check_module.engine.Check()
+    check = Check()
     tests = check.tests
     run_tests = []
     for test in tests:
-        func = check_module.engine.Check.subclasses.get(test)
+        func = check.subclasses.get(test)
         test_data_attrs = [attr for attr in dir(func) if attr.startswith('test_')]
         test_true_data = func.test_true if 'test_true' in test_data_attrs else None
         test_false_data = func.test_false if 'test_false' in test_data_attrs else None
@@ -78,6 +77,7 @@ class GenerateTest(TestCase):
     def test(self, name, main_func, func, data, expected):
         if expected == Exception:
             self.assertRaises(Exception, main_func, (func, *data))
+
         elif expected:
             res = main_func(func, *data)
             self.assertTrue(res, f'FUNC: {func.__name__}, DATA: {data}, RESULT: {res}')
@@ -85,6 +85,7 @@ class GenerateTest(TestCase):
         elif not expected:
             res = main_func(func, *data)
             self.assertFalse(res, f'{func.__name__} - {data} - {res}')
+
         else:
             raise Exception('Wrong expected value')
 

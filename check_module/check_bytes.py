@@ -1,4 +1,4 @@
-from check_module.engine import Check
+from check_module.check import Check
 
 
 class IsBytes(Check):

@@ -1,7 +1,7 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from .engine import Check
+from check_module.check import Check
 
 
 class IsCoordsValid(Check):

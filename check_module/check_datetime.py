@@ -1,7 +1,7 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from .engine import Check
+from check_module.check import Check
 import datetime
 from check_module.check_utils import (
     get_date_from_string,
