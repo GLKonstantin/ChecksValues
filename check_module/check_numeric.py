@@ -1,7 +1,7 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from check_module.engine import Check
+from check_module.check import Check
 
 
 class Greater(Check):

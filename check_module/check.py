@@ -1,6 +1,3 @@
-#  Copyright (c) by Konstantin Levickiy at 2023.
-#
-
 
 class Check(object):
     """

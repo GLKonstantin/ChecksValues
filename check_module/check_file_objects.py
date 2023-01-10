@@ -1,137 +1,292 @@
 import os
-from .engine import Check
-
-
-class IsPath(Check):
-    """Проверка на условие если значение является путем к файлу или папке"""
-    verbose_name = "является путем к файлу или папке"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) or os.path.isfile(value)
+from check_module.check import Check
 
 
 class IsFile(Check):
     """Проверка на условие если значение является путем к файлу"""
-    verbose_name = "является путем к файлу"
+    verbose_name = "является путем к существующему файлу"
+
+    test_true = [
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check_base.py')),
+    ]
+
+    test_false = [
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py', 'check.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check.py', 'check_file_objects.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py', 'check.py', 'check_file_objects.py')),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
 
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            return os.path.isfile(value)
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
 class IsDir(Check):
     """Проверка на условие если значение является путем к папке"""
-    verbose_name = "является путем к папке"
+
+    verbose_name = "является путем к  к существующей папке"
+
+    test_true = [
+        (None, os.path.dirname(__file__)),
+        (None, os.path.dirname(os.path.dirname(__file__))),
+        ]
+
+    test_false = [
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check_base.py')),
+        ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+        ]
 
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            return os.path.isdir(value)
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsFileExists(Check):
-    """Проверка на условие если файл существует"""
-    verbose_name = "файл существует"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and os.path.exists(value)
-
-
-class IsDirExists(Check):
+class PathExists(Check):
     """Проверка на условие если папка существует"""
-    verbose_name = "папка существует"
+
+    verbose_name = "путь до файла или папки существует"
+
+    test_true = [
+        (None, os.path.dirname(__file__)),
+        (None, os.path.dirname(os.path.dirname(__file__))),
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+    ]
+
+    test_false = [
+        (None, os.path.join(os.path.dirname(__file__), 'fake_file.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'fake_file.txt')),
+        (None, os.path.join(os.path.dirname(__file__), 'fake_file.jpg')),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
 
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and os.path.exists(value)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            return os.path.exists(value)
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsFileNotExists(Check):
-    """Проверка на условие если файл не существует"""
-    verbose_name = "файл не существует"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and not os.path.exists(value)
-
-
-class IsDirNotExists(Check):
+class PathNotExists(Check):
     """Проверка на условие если папка не существует"""
     verbose_name = "папка не существует"
 
+    test_true = [
+        (None, os.path.join(os.path.dirname(__file__), 'fake_file.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'FAKE_DIR')),
+        (None, os.path.join(os.path.dirname(__file__), 'FAKE_DIR', 'fake_file.jpg')),
+    ]
+
+    test_false = [
+        (None, os.path.dirname(__file__)),
+        (None, os.path.dirname(os.path.dirname(__file__))),
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and not os.path.exists(value)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            return not os.path.exists(value)
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
 class IsFileEmpty(Check):
     """Проверка на условие если файл пустой"""
+
     verbose_name = "файл пустой"
 
+    test_true = [
+        (None, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tests', 'empty_file_for_test.txt')),
+    ]
+
+    test_false = [
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check.py')),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and os.path.getsize(value) == 0
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            if os.path.isfile(value):
+                return os.stat(value).st_size == 0
+            else:
+                raise TypeError(f'Путь {value} не является файлом')
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
 class IsDirEmpty(Check):
     """Проверка на условие если папка пустая"""
     verbose_name = "папка пустая"
 
+    test_true = [
+        (None, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tests', 'Empty_folder_for_test')),
+    ]
+
+    test_false = [
+        (None, os.path.dirname(__file__)),
+        (None, os.path.dirname(os.path.dirname(__file__))),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and not os.listdir(value)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            if os.path.isdir(value):
+                return len(os.listdir(value)) == 0
+            else:
+                raise TypeError(f'Путь {value} не является папкой')
+        else:
+            raise TypeError(f'Значение {value} не является путем (строкой)')
 
 
 class IsFileNotEmpty(Check):
     """Проверка на условие если файл не пустой"""
     verbose_name = "файл не пустой"
 
+    test_true = [
+        (None, os.path.join(os.path.dirname(__file__), 'check_file_objects.py')),
+        (None, os.path.join(os.path.dirname(__file__), 'check.py')),
+    ]
+
+    test_false = [
+        (None, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tests', 'empty_file_for_test.txt')),
+    ]
+
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
+
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and os.path.getsize(value) > 0
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            if os.path.isfile(value):
+                return os.stat(value).st_size != 0
+            else:
+                raise TypeError(f'Путь {value} не является файлом')
+        else:
+            raise TypeError(f'Значение {value} не является строкой')
 
 
 class IsDirNotEmpty(Check):
     """Проверка на условие если папка не пустая"""
     verbose_name = "папка не пустая"
 
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and os.listdir(value)
+    test_true = [
+        (None, os.path.dirname(__file__)),
+        (None, os.path.dirname(os.path.dirname(__file__))),
+    ]
 
+    test_false = [
+        (None, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tests', 'Empty_folder_for_test')),
+    ]
 
-class IsFileReadable(Check):
-    """Проверка на условие если файл доступен для чтения"""
-    verbose_name = "файл доступен для чтения"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and os.access(value, os.R_OK)
-
-
-class IsDirReadable(Check):
-    """Проверка на условие если папка доступна для чтения"""
-    verbose_name = "папка доступна для чтения"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and os.access(value, os.R_OK)
-
-
-class IsFileWritable(Check):
-    """Проверка на условие если файл доступен для записи"""
-    verbose_name = "файл доступен для записи"
+    test_exception = [
+        (None, None),
+        (None, 1),
+        (None, []),
+        (None, {}),
+        (None, ()),
+        (None, set()),
+        (None, True),
+        (None, False),
+        (None, 'string'),
+    ]
 
     @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isfile(value) and os.access(value, os.W_OK)
-
-
-class IsDirWritable(Check):
-    """Проверка на условие если папка доступна для записи"""
-    verbose_name = "папка доступна для записи"
-
-    @staticmethod
-    def check(check_value, value) -> bool:
-        return os.path.isdir(value) and os.access(value, os.W_OK)
+    def check(_, value) -> bool:
+        if isinstance(value, str):
+            if os.path.isdir(value):
+                return len(os.listdir(value)) != 0
+            else:
+                raise TypeError(f'Путь {value} не является папкой')
+        else:
+            raise TypeError(f'Значение {value} не является путем (строкой)')
