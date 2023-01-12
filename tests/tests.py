@@ -1,13 +1,13 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #  All rights reserved.
 
-from check_module.check import Check
+from check_module.check import CheckConditions, CheckActions
 from unittest import TestCase
 from parameterized import parameterized
 
 
 def collect_test_data():
-    check = Check()
+    check = CheckConditions()
     tests = check.tests
     run_tests = []
     for test in tests:
@@ -88,6 +88,76 @@ class GenerateTest(TestCase):
 
         else:
             raise Exception('Wrong expected value')
+
+
+class TestCheckAction(TestCase):
+
+    def setUp(self):
+        self.check_action = CheckActions()
+
+    def test_create_true(self):
+        create_flag = True
+        choices = [CheckActions.CREATE, CheckActions.CREATE_OR_UPDATE, CheckActions.CREATE_OR_DELETE, CheckActions.ALL]
+
+        for choice in choices:
+            self.assertTrue(res := self.check_action.is_satisfied_by(choice, create_flag), f'choice={choice}, create_flag={create_flag} -> {res}')
+
+    def test_create_false(self):
+        create_flag = True
+        choices = [
+            CheckActions.UPDATE,
+            CheckActions.UPDATE_OR_DELETE,
+            CheckActions.DELETE,
+        ]
+
+        for choice in choices:
+            self.assertFalse(res := self.check_action.is_satisfied_by(
+                choice, create_flag), f'{choice},  flag: {create_flag} -> {res}'
+                             )
+
+    def test_update_true(self):
+        create_flag = False
+        choices = [CheckActions.UPDATE, CheckActions.CREATE_OR_UPDATE, CheckActions.UPDATE_OR_DELETE, CheckActions.ALL]
+
+        for choice in choices:
+            self.assertTrue(
+                res := self.check_action.is_satisfied_by(choice, create_flag),
+                f'choice={choice}, create_flag={create_flag} -> {res}')
+
+    def test_update_false(self):
+        create_flag = False
+        choices = [
+            CheckActions.CREATE,
+            CheckActions.CREATE_OR_DELETE,
+            CheckActions.DELETE,
+        ]
+
+        for choice in choices:
+            self.assertFalse(
+                res := self.check_action.is_satisfied_by(choice, create_flag),
+                f'choice={choice}, create_flag={create_flag} -> {res}')
+
+    def test_delete_true(self):
+        create_flag = None
+        choices = [CheckActions.DELETE, CheckActions.CREATE_OR_DELETE, CheckActions.UPDATE_OR_DELETE, CheckActions.ALL]
+
+        for choice in choices:
+            self.assertTrue(
+                res := self.check_action.is_satisfied_by(choice, create_flag),
+                f'choice={choice}, create_flag={create_flag} -> {res}')
+
+    def test_delete_false(self):
+        create_flag = None
+        choices = [
+            CheckActions.CREATE,
+            CheckActions.CREATE_OR_UPDATE,
+            CheckActions.UPDATE,
+        ]
+
+        for choice in choices:
+            self.assertFalse(
+                res := self.check_action.is_satisfied_by(choice, create_flag),
+                f'choice={choice}, create_flag={create_flag} -> {res}')
 
 
 if __name__ == '__main__':

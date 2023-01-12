@@ -1,8 +1,8 @@
 import os
-from check_module.check import Check
+from check_module.check import CheckConditions
 
 
-class IsFile(Check):
+class IsFile(CheckConditions):
     """Проверка на условие если значение является путем к файлу"""
     verbose_name = "является путем к существующему файлу"
 
@@ -38,7 +38,7 @@ class IsFile(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsDir(Check):
+class IsDir(CheckConditions):
     """Проверка на условие если значение является путем к папке"""
 
     verbose_name = "является путем к  к существующей папке"
@@ -74,7 +74,7 @@ class IsDir(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class PathExists(Check):
+class PathExists(CheckConditions):
     """Проверка на условие если папка существует"""
 
     verbose_name = "путь до файла или папки существует"
@@ -111,7 +111,7 @@ class PathExists(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class PathNotExists(Check):
+class PathNotExists(CheckConditions):
     """Проверка на условие если папка не существует"""
     verbose_name = "папка не существует"
 
@@ -147,7 +147,7 @@ class PathNotExists(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsFileEmpty(Check):
+class IsFileEmpty(CheckConditions):
     """Проверка на условие если файл пустой"""
 
     verbose_name = "файл пустой"
@@ -184,7 +184,7 @@ class IsFileEmpty(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsDirEmpty(Check):
+class IsDirEmpty(CheckConditions):
     """Проверка на условие если папка пустая"""
     verbose_name = "папка пустая"
 
@@ -220,7 +220,7 @@ class IsDirEmpty(Check):
             raise TypeError(f'Значение {value} не является путем (строкой)')
 
 
-class IsFileNotEmpty(Check):
+class IsFileNotEmpty(CheckConditions):
     """Проверка на условие если файл не пустой"""
     verbose_name = "файл не пустой"
 
@@ -256,7 +256,7 @@ class IsFileNotEmpty(Check):
             raise TypeError(f'Значение {value} не является строкой')
 
 
-class IsDirNotEmpty(Check):
+class IsDirNotEmpty(CheckConditions):
     """Проверка на условие если папка не пустая"""
     verbose_name = "папка не пустая"
 

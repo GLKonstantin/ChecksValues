@@ -1,7 +1,7 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from check_module.check import Check
+from check_module.check import CheckConditions
 import datetime
 from check_module.check_utils import (
     get_date_from_string,
@@ -12,7 +12,7 @@ from check_module.check_utils import (
 )
 
 
-class IsData(Check):
+class IsData(CheckConditions):
     """Проверка на условие если значение дата"""
     verbose_name = "дата"
 
@@ -50,7 +50,7 @@ class IsData(Check):
         return isinstance(value, datetime.date)
 
 
-class IsTime(Check):
+class IsTime(CheckConditions):
     """Проверка на условие если значение время"""
     verbose_name = "время"
 
@@ -92,7 +92,7 @@ class IsTime(Check):
         return isinstance(value, datetime.time)
 
 
-class IsDateTime(Check):
+class IsDateTime(CheckConditions):
     """Проверка на условие если значение дата и время"""
     verbose_name = "дата и время"
 
@@ -132,7 +132,7 @@ class IsDateTime(Check):
         return isinstance(value, datetime.datetime)
 
 
-class RangeDate(Check):
+class RangeDate(CheckConditions):
     """Проверка на условие если значение дата входит в диапазон"""
     verbose_name = "дата входит в диапазон"
 
@@ -186,7 +186,7 @@ class RangeDate(Check):
         return value[0] <= check_value <= value[1]
 
 
-class RangeTime(Check):
+class RangeTime(CheckConditions):
     """Проверка на условие если значение время входит в диапазон"""
     verbose_name = "время входит в диапазон"
 
@@ -235,7 +235,7 @@ class RangeTime(Check):
         return value[0] <= check_value <= value[1]
 
 
-class RangeDateTime(Check):
+class RangeDateTime(CheckConditions):
     """Проверка на условие если значение дата и время входит в диапазон"""
     verbose_name = "дата и время входит в диапазон"
 
@@ -280,7 +280,7 @@ class RangeDateTime(Check):
         return value[0] <= check_value <= value[1]
 
 
-class Year(Check):
+class Year(CheckConditions):
     """Проверка на условие если значение год"""
     verbose_name = "год"
 
@@ -328,7 +328,7 @@ class Year(Check):
         return isinstance(value, datetime.datetime)
 
 
-class Month(Check):
+class Month(CheckConditions):
     """Проверка на условие если значение месяц"""
     verbose_name = "месяц"
 
@@ -453,7 +453,7 @@ class Month(Check):
         return isinstance(value, datetime.date)
 
 
-class Day(Check):
+class Day(CheckConditions):
     """Проверка на условие если значение день"""
     verbose_name = "день"
 
@@ -564,7 +564,7 @@ class Day(Check):
         return isinstance(value, datetime.date)
 
 
-class WeekDay(Check):
+class WeekDay(CheckConditions):
     """Проверка на условие если значение день недели"""
     verbose_name = "день недели"
 

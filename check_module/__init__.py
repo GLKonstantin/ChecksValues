@@ -2,7 +2,7 @@
 #
 
 # Автоматизированная фабрика проверки условий
-from check_module.check import Check
+from check_module.check import CheckConditions, CheckActions
 from check_module import check_base
 from check_module import check_numeric
 from check_module import check_datetime
@@ -27,5 +27,6 @@ __all__ = [
     'check_regexp',
     'check_file_objects',
     'check_utils',
-    'Check',
+    'CheckConditions',
+    'CheckActions',
 ]

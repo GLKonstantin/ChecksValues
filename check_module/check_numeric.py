@@ -1,10 +1,10 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from check_module.check import Check
+from check_module.check import CheckConditions
 
 
-class Greater(Check):
+class Greater(CheckConditions):
     """Проверка на условие если значение больше"""
     verbose_name = "больше"
 
@@ -39,7 +39,7 @@ class Greater(Check):
             raise TypeError(f"Данные не являются числами: {type(check_value)}, {type(value)}")
 
 
-class Less(Check):
+class Less(CheckConditions):
     """Проверка на условие если значение меньше"""
     verbose_name = "меньше"
 
@@ -74,7 +74,7 @@ class Less(Check):
             raise TypeError(f"Данные не являются числами: {type(check_value)}, {type(value)}")
 
 
-class GreaterEqual(Check):
+class GreaterEqual(CheckConditions):
     """Проверка на условие если значение больше или равно"""
     verbose_name = "больше или равно"
 
@@ -109,7 +109,7 @@ class GreaterEqual(Check):
             raise TypeError(f"Данные не являются числами: {type(check_value)}, {type(value)}")
 
 
-class LessEqual(Check):
+class LessEqual(CheckConditions):
     """Проверка на условие если значение меньше или равно"""
     verbose_name = "меньше или равно"
 
@@ -144,7 +144,7 @@ class LessEqual(Check):
             raise TypeError(f"Данные не являются числами: {type(check_value)}, {type(value)}")
 
 
-class IsFloat(Check):
+class IsFloat(CheckConditions):
     """Проверка на условие если значение число с плавающей точкой"""
     verbose_name = "число с плавающей точкой"
 
@@ -195,7 +195,7 @@ class IsFloat(Check):
             raise TypeError(f"Данные не являются числами: {type(value)}")
 
 
-class IsNotFloat(Check):
+class IsNotFloat(CheckConditions):
     """Проверка на условие если значение не число с плавающей точкой"""
     verbose_name = "не число с плавающей точкой"
 
@@ -232,7 +232,7 @@ class IsNotFloat(Check):
         return not IsFloat.check(None, value)
 
 
-class IsInt(Check):
+class IsInt(CheckConditions):
     """Проверка на условие если значение целое число"""
     verbose_name = "целое число"
 
@@ -280,7 +280,7 @@ class IsInt(Check):
             raise TypeError(f"Данные не являются числами: {type(value)}")
 
 
-class IsNotInt(Check):
+class IsNotInt(CheckConditions):
     """Проверка на условие если значение не целое число"""
     verbose_name = "не целое число"
 
@@ -315,7 +315,7 @@ class IsNotInt(Check):
         return not IsInt.check(None, value)
 
 
-class Range(Check):
+class Range(CheckConditions):
     """Проверка на условие если значение входит в диапазон"""
     verbose_name = "входит в диапазон"
 
@@ -372,7 +372,7 @@ class Range(Check):
         return False
 
 
-class NotRange(Check):
+class NotRange(CheckConditions):
     """Проверка на условие если значение не входит в диапазон"""
     verbose_name = "не входит в диапазон"
 

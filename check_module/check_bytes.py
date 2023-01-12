@@ -1,7 +1,7 @@
-from check_module.check import Check
+from check_module.check import CheckConditions
 
 
-class IsBytes(Check):
+class IsBytes(CheckConditions):
     verbose_name = 'Проверка на тип bytes'
 
     test_true = [
@@ -33,7 +33,7 @@ class IsBytes(Check):
         return isinstance(value, bytes)
 
 
-class InBytes(Check):
+class InBytes(CheckConditions):
     verbose_name = 'Проверка на нахождение в bytes'
 
     test_true = [
@@ -68,7 +68,7 @@ class InBytes(Check):
             return False
 
 
-class NotInBytes(Check):
+class NotInBytes(CheckConditions):
     verbose_name = 'Проверка на отсутствие в bytes'
 
     test_true = [
@@ -103,7 +103,7 @@ class NotInBytes(Check):
             return False
 
 
-class EqualBytes(Check):
+class EqualBytes(CheckConditions):
     verbose_name = 'Проверка на равенство bytes'
 
     test_true = [
@@ -134,7 +134,7 @@ class EqualBytes(Check):
             return False
 
 
-class NotEqualBytes(Check):
+class NotEqualBytes(CheckConditions):
     verbose_name = 'Проверка на неравенство bytes'
 
     test_true = [

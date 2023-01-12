@@ -1,8 +1,8 @@
-from check_module.check import Check
+from check_module.check import CheckConditions
 from check_module.check_utils import get_list_from_string
 
 
-class Equal(Check):
+class Equal(CheckConditions):
     """Проверка равенства значений"""
     verbose_name = "равно"
     test_true = [
@@ -28,7 +28,6 @@ class Equal(Check):
     test_exception = [
         ('TestException', 100),
         (100, 'TestException'),
-
     ]
 
     @staticmethod
@@ -37,7 +36,7 @@ class Equal(Check):
         return value == check_value
 
 
-class NotEqual(Check):
+class NotEqual(CheckConditions):
     """Проверка неравенства значений"""
     verbose_name = "не равно"
     test_true = [
@@ -71,7 +70,7 @@ class NotEqual(Check):
         return value != check_value
 
 
-class In(Check):
+class In(CheckConditions):
     """Проверка на условие если значение в списке"""
     verbose_name = "в списке"
 
@@ -118,7 +117,7 @@ class In(Check):
         return value in check_value
 
 
-class NotIn(Check):
+class NotIn(CheckConditions):
     """Проверка на условие если значение не в списке"""
     verbose_name = "не в списке"
 
@@ -163,7 +162,7 @@ class NotIn(Check):
         return check_value not in value
 
 
-class IsTrue(Check):
+class IsTrue(CheckConditions):
     """Проверка на условие если значение True"""
     verbose_name = "истина"
 
@@ -194,7 +193,7 @@ class IsTrue(Check):
         return bool(value)
 
 
-class IsFalse(Check):
+class IsFalse(CheckConditions):
     """Проверка на условие если значение False"""
     verbose_name = "ложь"
 
@@ -225,7 +224,7 @@ class IsFalse(Check):
         return not bool(value)
 
 
-class IsEmpty(Check):
+class IsEmpty(CheckConditions):
     """Проверка на условие если значение пустое"""
     verbose_name = "пустая строка"
 
@@ -257,7 +256,7 @@ class IsEmpty(Check):
             return len(value) == 0
 
 
-class IsNotEmpty(Check):
+class IsNotEmpty(CheckConditions):
     """Проверка на условие если значение не пустое"""
     verbose_name = "не пустая строка"
 
@@ -289,7 +288,7 @@ class IsNotEmpty(Check):
             return len(value) != 0
 
 
-class IsNone(Check):
+class IsNone(CheckConditions):
     """Проверка на условие если значение None"""
     verbose_name = "не определено"
 
@@ -309,7 +308,7 @@ class IsNone(Check):
         return value is None
 
 
-class IsNotNone(Check):
+class IsNotNone(CheckConditions):
     """Проверка на условие если значение не None"""
     verbose_name = "не пустое"
 
@@ -329,7 +328,7 @@ class IsNotNone(Check):
         return value is not None
 
 
-class IsDigit(Check):
+class IsDigit(CheckConditions):
     """Проверка на условие если значение цифра"""
     verbose_name = "цифра"
 
@@ -359,7 +358,7 @@ class IsDigit(Check):
         return False
 
 
-class IsAlphaOrDigit(Check):
+class IsAlphaOrDigit(CheckConditions):
     """Проверка на условие если значение буква или цифра"""
     verbose_name = "буква или цифра"
 
@@ -389,7 +388,7 @@ class IsAlphaOrDigit(Check):
         return False
 
 
-class IsAlpha(Check):
+class IsAlpha(CheckConditions):
     """Проверка на условие если значение буква"""
     verbose_name = "буква"
 

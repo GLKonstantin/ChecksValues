@@ -1,10 +1,10 @@
 #  Copyright (c) by Konstantin Levickiy at 2023.
 #
 
-from check_module.check import Check
+from check_module.check import CheckConditions
 
 
-class IsLower(Check):
+class IsLower(CheckConditions):
     """Проверка на условие если значение строчная буква"""
     verbose_name = "строчная буква или слово"
 
@@ -55,7 +55,7 @@ class IsLower(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class IsUpper(Check):
+class IsUpper(CheckConditions):
     """Проверка на условие если значение заглавная буква"""
     verbose_name = "заглавная буква"
 
@@ -108,7 +108,7 @@ class IsUpper(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class Contains(Check):
+class Contains(CheckConditions):
     """Проверка на условие если значение содержится в строке"""
     verbose_name = "текст содержит"
 
@@ -158,7 +158,7 @@ class Contains(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class NotContains(Check):
+class NotContains(CheckConditions):
     """Проверка на условие если значение не содержится в строке"""
     verbose_name = "не содержит"
 
@@ -209,7 +209,7 @@ class NotContains(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class StartsWith(Check):
+class StartsWith(CheckConditions):
     """Проверка на условие если значение начинается с"""
     verbose_name = "текст начинается с"
 
@@ -260,7 +260,7 @@ class StartsWith(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class NotStartsWith(Check):
+class NotStartsWith(CheckConditions):
     """Проверка на условие если значение не начинается с"""
     verbose_name = "не начинается с"
 
@@ -311,7 +311,7 @@ class NotStartsWith(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class EndsWith(Check):
+class EndsWith(CheckConditions):
     """Проверка на условие если значение заканчивается на"""
     verbose_name = "заканчивается на"
 
@@ -362,7 +362,7 @@ class EndsWith(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class NotEndsWith(Check):
+class NotEndsWith(CheckConditions):
     """Проверка на условие если значение не заканчивается на"""
     verbose_name = "текст не заканчивается на"
 
@@ -413,7 +413,7 @@ class NotEndsWith(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class ContainsIgnoreCase(Check):
+class ContainsIgnoreCase(CheckConditions):
     """Проверка на условие если значение содержит подстроку без учета регистра"""
     verbose_name = "содержит (без учета регистра)"
 
@@ -465,7 +465,7 @@ class ContainsIgnoreCase(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class StartsWithIgnoreCase(Check):
+class StartsWithIgnoreCase(CheckConditions):
     """Проверка на условие если значение начинается с подстроки без учета регистра"""
     verbose_name = "начинается с (без учета регистра)"
 
@@ -518,7 +518,7 @@ class StartsWithIgnoreCase(Check):
             raise TypeError(f'Значение должно быть строкой а не {type(value)}')
 
 
-class EndsWithIgnoreCase(Check):
+class EndsWithIgnoreCase(CheckConditions):
     """Проверка на условие если значение заканчивается на подстроку без учета регистра"""
     verbose_name = "заканчивается на (без учета регистра)"
 

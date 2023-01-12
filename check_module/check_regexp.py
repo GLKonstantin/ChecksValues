@@ -1,8 +1,8 @@
-from check_module.check import Check
+from check_module.check import CheckConditions
 import re
 
 
-class Regex(Check):
+class Regex(CheckConditions):
     """Проверка на условие если значение соответствует регулярному выражению"""
     verbose_name = "соответствует регулярному выражению"
 
@@ -51,7 +51,7 @@ class Regex(Check):
             raise TypeError(f"Неверный тип данных: {type(template)} и {type(value)}")
 
 
-class NotRegex(Check):
+class NotRegex(CheckConditions):
     """Проверка на условие если значение не соответствует регулярному выражению"""
     verbose_name = "не соответствует регулярному выражению"
 
