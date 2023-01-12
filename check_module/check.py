@@ -8,7 +8,8 @@ class CheckConditions(object):
     verbose_name = None
     CHOOSE = []
 
-    def is_satisfied_by(self, check_name, check_value, value) -> bool:
+    @classmethod
+    def is_satisfied_by(cls, check_name, check_value, value) -> bool:
         """
         Проверка по значению
 
@@ -21,9 +22,9 @@ class CheckConditions(object):
         """
 
         if isinstance(check_name, str):
-            check_class = self.subclasses.get(check_name)
+            check_class = cls.subclasses.get(check_name)
         else:
-            check_class = self.subclasses.get(check_name.__name__)
+            check_class = cls.subclasses.get(check_name.__name__)
 
         if check_class:
             return check_class.check(check_value, value=value)
